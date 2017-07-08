@@ -4,6 +4,7 @@
   "main": "main.js",
   "description": "",
   "scripts": {
+    "start": "electron .",
     "test": "test"
   },
   "repository": {
