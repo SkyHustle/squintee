@@ -2,13 +2,13 @@
 var path = require('path');
 var options = [
   {
-    title: "Basic Notification",
-    body: "Short message part"
+    title: "Stop Squinting! (Basic)",
+    body: "Damn brah sup with those brows coming so close together?"
   },
   {
-    title: "Content-Image Notification",
-    body: "Short message plus a custom content image",
-    icon: path.join(__dirname, 'icon.png')
+    title: "Stop Squinting! (Image)",
+    body: "Damn brah sup with those brows coming so close together?",
+    icon: path.join(__dirname, 'squinting-emoji.jpg')
   }
 ]
 
@@ -120,9 +120,10 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
   }
 
   // My Jam
-  if(faces[0].expressions.browFurrow > 50) {
+  if(faces[0].expressions.browFurrow > 75) {
     console.log("damn brah! Sup with those brows?")
-    document.getElementById("basic").click()
+    document.getElementById("image").click()
+    // setTimeout(function(){console.log("setting timeout 5 seconds")}, 5000);
   }
 
 

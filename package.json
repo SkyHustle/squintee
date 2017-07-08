@@ -1,5 +1,24 @@
 {
-  "name"    : "notification-demo",
-  "version" : "1.1.0",
-  "main"    : "main.js"
+  "name": "squintee",
+  "version": "1.1.0",
+  "main": "main.js",
+  "description": "A sample demonstrates Notification API usage. The Notification API in Electron works on OS X, Windows 8 (and up) and sometimes on Linux. [Node-notifier](https://github.com/mikaelbr/node-notifier) is a potential alternative.",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dmitry1007/squintee.git"
+  },
+  "keywords": [
+    "facial",
+    "emotion",
+    "recognition"
+  ],
+  "author": "Dmitry Vizersky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dmitry1007/squintee/issues"
+  },
+  "homepage": "https://github.com/Dmitry1007/squintee#readme"
 }
