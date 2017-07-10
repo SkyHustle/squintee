@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // })
 
   // Tell the notification to show the menubar popup window on click
-  n.onclick = () => { ipcRenderer.send('show-window') }
+  // n.onclick = () => { ipcRenderer.send('show-window') }
 
 })
 
 
 // Notification
 var path = require('path');
-var options = [
+var notificationOptions = [
   {
     title: "Stop Squinting! (Basic)",
     body: "Damn brah sup with those brows coming so close together?"
@@ -25,27 +25,13 @@ var options = [
   }
 ]
 
-function doNotify(evt) {
-  if (evt.srcElement.id == "basic") {
-    new Notification(options[0].title, options[0]);
-  }
-  else if (evt.srcElement.id == "image") {
-    new Notification(options[1].title, options[1]);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById("basic").addEventListener("click", doNotify);
-  document.getElementById("image").addEventListener("click", doNotify);
-})
-
 
 
 // SDK Needs to create video and canvas nodes in the DOM in order to function
 // Here we are adding those nodes a predefined div.
 var divRoot = $("#affdex_elements")[0];
-var width = 256;
-var height = 192;
+var width = 640;
+var height = 480;
 var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
 //Construct a CameraDetector and specify the image width / height and face detector mode.
 var detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
@@ -135,12 +121,9 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
   // My Jam
   if(faces[0].expressions.browFurrow > 75) {
     console.log("damn brah! Sup with those brows?")
-    document.getElementById("image").click()
+    new Notification(notificationOptions[1].title, notificationOptions[1]);
     // setTimeout(function(){console.log("setting timeout 5 seconds")}, 5000);
   }
-
-
-
 });
 
 //Draw the detected facial feature points on the image
