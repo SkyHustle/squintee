@@ -8,9 +8,6 @@
 // });
 
 
-
-
-
 const {app, BrowserWindow, ipcMain, Tray, nativeImage} = require('electron')
 const path = require('path')
 
