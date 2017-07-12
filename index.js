@@ -10,7 +10,7 @@ const notificationOptions = [
   {
     title: "Stop Squinting! (Image)",
     body: "Damn brah sup with those brows coming so close together?",
-    icon: path.join(__dirname, 'images/squinting-emoji.jpg')
+    icon: path.join(__dirname, 'assets/icons/png/24x24.jpg')
   }
 ]
 
