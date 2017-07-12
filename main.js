@@ -11,7 +11,7 @@
 const {app, BrowserWindow, ipcMain, Tray, nativeImage} = require('electron')
 const path = require('path')
 
-const assetsDir = path.join(__dirname, 'assets')
+// const assetsDir = path.join(__dirname, 'assets')
 
 let tray = undefined
 let window = undefined

@@ -10,7 +10,7 @@ const notificationOptions = [
   {
     title: "Stop Squinting! (Image)",
     body: "Damn brah sup with those brows coming so close together?",
-    icon: path.join(__dirname, 'squinting-emoji.jpg')
+    icon: path.join(__dirname, 'images/squinting-emoji.jpg')
   }
 ]
 
@@ -88,6 +88,18 @@ detector.addEventListener("onStopSuccess", () => {
   $("#results").html("");
 });
 
+const triggerSquintNotification = (browFurrowScore) => {
+  if(browFurrowScore > 75) {
+    let squintNotification     = new Notification(notificationOptions[1].title, notificationOptions[1]);
+    // let squintNotificationTime = new Date(squintNotification.timestamp);
+    // let timeNow = new Date(Date.now());
+    // if(squintNotificationTime.getMinutes() == timeNow.getMinutes()) {
+    //   squintNotification = null;
+    // }
+  }
+
+}
+
 //Add a callback to receive the results from processing an image.
 //The faces object contains the list of the faces detected in an image.
 //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
@@ -107,12 +119,8 @@ detector.addEventListener("onImageResultsSuccess", (faces, image, timestamp) => 
     drawFeaturePoints(image, faces[0].featurePoints);
   }
 
-  // My Jam
-  if(faces[0].expressions.browFurrow > 75) {
-    console.log("damn brah! Sup with those brows?")
-    new Notification(notificationOptions[1].title, notificationOptions[1]);
-    setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);
-  }
+  // setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);
+  triggerSquintNotification(faces[0].expressions.browFurrow)
 });
 
 //Draw the detected facial feature points on the image
