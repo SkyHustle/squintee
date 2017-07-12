@@ -1,11 +1,12 @@
 {
   "name": "squintee",
-  "version": "1.1.0",
+  "productName": "squintee",
+  "version": "0.1.0",
   "main": "main.js",
   "description": "",
   "scripts": {
     "start": "electron .",
-    "test": "test"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "license": "MIT",
   "homepage": "https://github.com/Dmitry1007/squintee#readme",
   "devDependencies": {
-    "electron": "^1.6.11"
+    "electron": "^1.6.11",
+    "electron-packager": "^8.7.2"
   }
 }
