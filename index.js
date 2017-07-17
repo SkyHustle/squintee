@@ -10,7 +10,8 @@ const notificationOptions = [
   {
     title: "Stop Squinting! (Image)",
     body: "Damn brah sup with those brows coming so close together?",
-    icon: path.join(__dirname, 'assets/icons/png/24x24.jpg')
+    icon: path.join(__dirname, 'images/squinting-emoji.jpg'),
+    silent: true
   }
 ]
 
@@ -117,6 +118,9 @@ detector.addEventListener("onImageResultsSuccess", (faces, image, timestamp) => 
     }));
     log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     drawFeaturePoints(image, faces[0].featurePoints);
+    $("#face-found-badge").text("YES")
+  } else {
+    $("#face-found-badge").text("NO")
   }
 
   // setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);
@@ -140,3 +144,5 @@ const drawFeaturePoints = (img, featurePoints) => {
 
   }
 }
+
+$("#canvas-and-results").hide()

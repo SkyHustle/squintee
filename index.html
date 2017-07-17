@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row">
+      <div class="row" id="canvas-and-results">
         <div class="col-md-8" id="affdex_elements" style="width:640px;height:480px;"></div>
         <div class="col-md-4">
           <div style="height:20em;">
@@ -20,11 +20,11 @@
           <div id="logs"></div>
         </div>
       </div>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button id="start" onclick="onStart()" type="button" class="btn btn-success">Start</button>
-        <button id="stop"  onclick="onStop()"  type="button" class="btn btn-danger">Stop</button>
-        <button id="reset" onclick="onReset()"   type="button" class="btn btn-warning">Reset</button>
-      </div>
+      <br/>
+      <button id="start" onclick="onStart()" type="button" class="btn btn-success btn-sm">Start</button>
+      <button id="stop"  onclick="onStop()"  type="button" class="btn btn-danger btn-sm">Stop</button>
+      <!-- <button id="reset" onclick="onReset()"   type="button" class="btn btn-warning btn-sm">Reset</button> -->
+      Face Found: <span id="face-found-badge" class="badge badge-pill badge-danger">NO</span>
     </div>
   </body>
 
