@@ -55,6 +55,7 @@ const onStart = () => {
 
 //function executes when the Stop button is pushed.
 const onStop = () => {
+  faceNotFound()
   log('#logs', "Clicked the stop button");
   if (detector && detector.isRunning) {
     detector.removeEventListener();
@@ -101,6 +102,16 @@ const triggerSquintNotification = (browFurrowScore) => {
 
 }
 
+const faceFound = () => {
+  $("#face-found-badge").text("YES")
+  $("#face-found-badge").css({background: "green"})
+}
+
+const faceNotFound = () => {
+  $("#face-found-badge").text("NO")
+  $("#face-found-badge").css({background: "#c9302c"})
+}
+
 //Add a callback to receive the results from processing an image.
 //The faces object contains the list of the faces detected in an image.
 //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
@@ -118,9 +129,9 @@ detector.addEventListener("onImageResultsSuccess", (faces, image, timestamp) => 
     }));
     log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     drawFeaturePoints(image, faces[0].featurePoints);
-    $("#face-found-badge").text("YES")
+    faceFound()
   } else {
-    $("#face-found-badge").text("NO")
+    faceNotFound()
   }
 
   // setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);

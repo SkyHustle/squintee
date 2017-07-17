@@ -2,8 +2,9 @@
 <html>
   <head>
     <title>Squintee</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="assets/css/index.css" />
   </head>
   <body>
     <div class="container-fluid">
@@ -25,12 +26,16 @@
       <button id="stop"  onclick="onStop()"  type="button" class="btn btn-danger btn-sm">Stop</button>
       <!-- <button id="reset" onclick="onReset()"   type="button" class="btn btn-warning btn-sm">Reset</button> -->
       Face Found: <span id="face-found-badge" class="badge badge-pill badge-danger">NO</span>
+
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
     </div>
   </body>
 
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://download.affectiva.com/js/nightly/affdex.js"></script>
   <!-- <script type="text/javascript" src="affdex-native-bindings.asm.js"></script>
   <script type="text/javascript" src="adapter-1.4.0.js"></script>
