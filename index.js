@@ -161,4 +161,4 @@ const drawFeaturePoints = (img, featurePoints) => {
   }
 }
 
-// $("#canvas-and-results").hide()
+$("#canvas-and-results").hide()
