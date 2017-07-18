@@ -8,8 +8,8 @@ const notificationOptions = [
     body: "Damn brah sup with those brows coming so close together?"
   },
   {
-    title: "Stop Squinting! (Image)",
-    body: "Damn brah sup with those brows coming so close together?",
+    title: "Stop Squinting!",
+    body: "Why are those brows oh so close together?",
     icon: path.join(__dirname, 'images/squinting-emoji.jpg'),
     silent: true
   }
@@ -46,6 +46,7 @@ const log = (node_name, msg) => {
 
 //function executes when Start button is pushed.
 const onStart = () => {
+  faceSearching()
   if (detector && !detector.isRunning) {
     $("#logs").html("");
     detector.start();
@@ -91,7 +92,7 @@ detector.addEventListener("onStopSuccess", () => {
 });
 
 const triggerSquintNotification = (browFurrowScore) => {
-  if(browFurrowScore > 75) {
+  if(browFurrowScore > 25) {
     let squintNotification     = new Notification(notificationOptions[1].title, notificationOptions[1]);
     // let squintNotificationTime = new Date(squintNotification.timestamp);
     // let timeNow = new Date(Date.now());
@@ -99,7 +100,11 @@ const triggerSquintNotification = (browFurrowScore) => {
     //   squintNotification = null;
     // }
   }
+}
 
+const faceSearching = () => {
+  $("#face-found-badge").text("Searching")
+  $("#face-found-badge").css({background: "orange"})
 }
 
 const faceFound = () => {
@@ -156,4 +161,4 @@ const drawFeaturePoints = (img, featurePoints) => {
   }
 }
 
-$("#canvas-and-results").hide()
+// $("#canvas-and-results").hide()
