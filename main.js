@@ -8,6 +8,13 @@
 // });
 
 
+//handle setupevents as quickly as possible
+ const setupEvents = require('./installers/setupEvents')
+ if (setupEvents.handleSquirrelEvent()) {
+    // squirrel event handled and app will exit in 1000ms, so don't do anything else
+    return;
+ }
+
 const {app, BrowserWindow, ipcMain, Tray, nativeImage} = require('electron')
 const path = require('path')
 
@@ -37,7 +44,7 @@ app.on('ready', () => {
   // Make the popup window for the menubar
   window = new BrowserWindow({
     width: 300,
-    height: 100,
+    height: 200,
     show: false,
     frame: false,
     resizable: true,
