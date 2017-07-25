@@ -1,17 +1,20 @@
 {
   "name": "squintee",
   "productName": "squintee",
-  "author": "Dmitry Vizersky",
+  "author": "Dmitry Vizersky <dmitry.vizer@gmail.com>",
   "version": "0.1.0",
   "description": "",
   "main": "main.js",
+  "license": "MIT",
+  "homepage": "https://github.com/Dmitry1007/squintee#readme",
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --asar=true --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Squintee\"",
     "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/512x512.png --prune=true --out=release-builds",
     "create-installer-mac": "electron-installer-dmg ./release-builds/squintee-darwin-x64/squintee.app squintee --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns",
-     "create-installer-win": "node installers/windows/createinstaller.js"
+    "create-installer-win": "node installers/windows/createinstaller.js",
+    "dist": "build -mwl --x64 --ia32"
   },
   "repository": {
     "type": "git",
@@ -22,12 +25,20 @@
     "emotion",
     "recognition"
   ],
-  "license": "MIT",
-  "homepage": "https://github.com/Dmitry1007/squintee#readme",
   "devDependencies": {
     "electron": "^1.6.11",
+    "electron-builder": "^19.16.2",
     "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^8.7.2",
     "electron-winstaller": "^2.6.3"
+  },
+  "build": {
+    "appId": "sq.squint.squintee",
+    "app-category-type": "public.app-category.productivity",
+    "dmg": {
+    },
+    "win": {
+        "iconUrl": "https://maxcdn.icons8.com/Share/icon/Messaging//visible1600.png"
+    }
   }
 }
