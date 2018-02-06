@@ -45,7 +45,7 @@ app.on('ready', () => {
   window = new BrowserWindow({
     width: 300,
     height: 200,
-    show: false,
+    show: true,
     frame: false,
     resizable: true,
     icon: path.join(__dirname, 'assets/icons/png/64x64.png')

@@ -34,11 +34,6 @@
   },
   "build": {
     "appId": "sq.squint.squintee",
-    "app-category-type": "public.app-category.productivity",
-    "dmg": {
-    },
-    "win": {
-        "iconUrl": "https://maxcdn.icons8.com/Share/icon/Messaging//visible1600.png"
-    }
+    "app-category-type": "public.app-category.productivity"
   }
 }

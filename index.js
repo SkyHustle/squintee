@@ -16,29 +16,91 @@ const notificationOptions = [
 ]
 
 
+  // SDK Needs to create video and canvas nodes in the DOM in order to function
+  // Here we are adding those nodes a predefined div.
+  const divRoot = $("#affdex_elements")[0];
+  const width = 640;
+  const height = 480;
+  const faceMode = affdex.FaceDetectorMode.LARGE_FACES;
+  //Construct a CameraDetector and specify the image width / height and face detector mode.
+  const detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
 
-// SDK Needs to create video and canvas nodes in the DOM in order to function
-// Here we are adding those nodes a predefined div.
-const divRoot = $("#affdex_elements")[0];
-const width = 640;
-const height = 480;
-const faceMode = affdex.FaceDetectorMode.LARGE_FACES;
-//Construct a CameraDetector and specify the image width / height and face detector mode.
-const detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
+  //Enable detection of all Expressions, Emotions and Emojis classifiers.
+  detector.detectAllEmotions();
+  detector.detectAllExpressions();
+  detector.detectAllEmojis();
+  detector.detectAllAppearance();
 
-//Enable detection of all Expressions, Emotions and Emojis classifiers.
-detector.detectAllEmotions();
-detector.detectAllExpressions();
-detector.detectAllEmojis();
-detector.detectAllAppearance();
+  //Add a callback to notify when the detector is initialized and ready for runing.
+  detector.addEventListener("onInitializeSuccess", () => {
+    log('#logs', "The detector reports initialized");
+    //Display canvas instead of video feed because we want to draw the feature points on it
+    $("#face_video_canvas").css("display", "block");
+    $("#face_video").css("display", "none");
+  });
 
-//Add a callback to notify when the detector is initialized and ready for runing.
-detector.addEventListener("onInitializeSuccess", () => {
-  log('#logs', "The detector reports initialized");
-  //Display canvas instead of video feed because we want to draw the feature points on it
-  $("#face_video_canvas").css("display", "block");
-  $("#face_video").css("display", "none");
+  //Add a callback to notify when camera access is allowed
+  detector.addEventListener("onWebcamConnectSuccess", () => {
+    log('#logs', "Webcam access allowed");
+  });
+
+  //Add a callback to notify when camera access is denied
+  detector.addEventListener("onWebcamConnectFailure", () => {
+    log('#logs', "webcam denied");
+    console.log("Webcam access denied");
+  });
+
+  //Add a callback to notify when detector is stopped
+  detector.addEventListener("onStopSuccess", () => {
+    log('#logs', "The detector reports stopped");
+    $("#results").html("");
+  });
+
+//Add a callback to receive the results from processing an image.
+//The faces object contains the list of the faces detected in an image.
+//Faces object contains probabilities for all the different expressions, emotions and appearance metrics
+detector.addEventListener("onImageResultsSuccess", (faces, image, timestamp) => {
+  $('#results').html("");
+  log('#results', "Timestamp: " + timestamp.toFixed(2));
+  log('#results', "Number of faces found: " + faces.length);
+  if (faces.length > 0) {
+    log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
+    log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, (key, val) => {
+      return val.toFixed ? Number(val.toFixed(0)) : val;
+    }));
+    log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, (key, val) => {
+      return val.toFixed ? Number(val.toFixed(0)) : val;
+    }));
+    log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
+    drawFeaturePoints(image, faces[0].featurePoints);
+    faceFound()
+  } else {
+    faceNotFound()
+  }
+  // setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);
+  triggerSquintNotification(faces[0].expressions.browFurrow)
 });
+
+//Draw the detected facial feature points on the image
+const drawFeaturePoints = (img, featurePoints) => {
+  const contxt = $('#face_video_canvas')[0].getContext('2d');
+
+  const hRatio = contxt.canvas.width / img.width;
+  const vRatio = contxt.canvas.height / img.height;
+  const ratio = Math.min(hRatio, vRatio);
+
+  contxt.strokeStyle = "#FFFFFF";
+  for (const id in featurePoints) {
+    contxt.beginPath();
+    contxt.arc(featurePoints[id].x,
+      featurePoints[id].y, 2, 0, 2 * Math.PI);
+    contxt.stroke();
+
+  }
+}
+
+
+
 
 const log = (node_name, msg) => {
   $(node_name).append("<span>" + msg + "</span><br />")
@@ -74,22 +136,6 @@ const onReset = () => {
   }
 };
 
-//Add a callback to notify when camera access is allowed
-detector.addEventListener("onWebcamConnectSuccess", () => {
-  log('#logs', "Webcam access allowed");
-});
-
-//Add a callback to notify when camera access is denied
-detector.addEventListener("onWebcamConnectFailure", () => {
-  log('#logs', "webcam denied");
-  console.log("Webcam access denied");
-});
-
-//Add a callback to notify when detector is stopped
-detector.addEventListener("onStopSuccess", () => {
-  log('#logs', "The detector reports stopped");
-  $("#results").html("");
-});
 
 const triggerSquintNotification = (browFurrowScore) => {
   if(browFurrowScore > 25) {
@@ -117,48 +163,6 @@ const faceNotFound = () => {
   $("#face-found-badge").css({background: "#c9302c"})
 }
 
-//Add a callback to receive the results from processing an image.
-//The faces object contains the list of the faces detected in an image.
-//Faces object contains probabilities for all the different expressions, emotions and appearance metrics
-detector.addEventListener("onImageResultsSuccess", (faces, image, timestamp) => {
-  $('#results').html("");
-  log('#results', "Timestamp: " + timestamp.toFixed(2));
-  log('#results', "Number of faces found: " + faces.length);
-  if (faces.length > 0) {
-    log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
-    log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, (key, val) => {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
-    log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, (key, val) => {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
-    log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
-    drawFeaturePoints(image, faces[0].featurePoints);
-    faceFound()
-  } else {
-    faceNotFound()
-  }
 
-  // setTimeout(() => {console.log("setting timeout 5 seconds")}, 5000);
-  triggerSquintNotification(faces[0].expressions.browFurrow)
-});
-
-//Draw the detected facial feature points on the image
-const drawFeaturePoints = (img, featurePoints) => {
-  const contxt = $('#face_video_canvas')[0].getContext('2d');
-
-  const hRatio = contxt.canvas.width / img.width;
-  const vRatio = contxt.canvas.height / img.height;
-  const ratio = Math.min(hRatio, vRatio);
-
-  contxt.strokeStyle = "#FFFFFF";
-  for (const id in featurePoints) {
-    contxt.beginPath();
-    contxt.arc(featurePoints[id].x,
-      featurePoints[id].y, 2, 0, 2 * Math.PI);
-    contxt.stroke();
-
-  }
-}
 
 $("#canvas-and-results").hide()
